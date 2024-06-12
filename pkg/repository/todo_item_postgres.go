@@ -26,7 +26,7 @@ func (r *TodoItemPostgres) Create(listId int, item todo.TodoItem) (int, error) {
 	row := tx.QueryRow(createItemQuery, item.Title, item.Description)
 	err = row.Scan(&itemId)
 	if err != nil {
-		tx.Rollback()
+		_ = tx.Rollback()
 		return 0, err
 	}
 	return itemId, tx.Commit()
